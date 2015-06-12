@@ -731,6 +731,17 @@ var filterIgnore = function( ignore, id, origId ){
                 }
             });
 
+            content = content.replace(/<video[^<>]+>/ig, function(str, index, allContent){
+            if (str.indexOf('src=') >= 0) {
+              var strArr = str.split('poster='),
+                retImg = strArr[0]+'poster='+relativeStr+strArr[1];
+
+              return retImg;
+            }else{
+              return str;
+            }
+          });
+            
             file.contents =  new Buffer(content);
             callback(null, file);
         });
