@@ -732,7 +732,7 @@ var filterIgnore = function( ignore, id, origId ){
             });
 
             content = content.replace(/<video[^<>]+>/ig, function(str, index, allContent){
-            if (str.indexOf('src=') >= 0) {
+            if (str.indexOf('poster=') >= 0) {
               var strArr = str.split('poster='),
                 retImg = strArr[0]+'poster='+relativeStr+strArr[1];
 
