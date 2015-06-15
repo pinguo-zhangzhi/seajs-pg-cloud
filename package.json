@@ -1,6 +1,6 @@
 {
   "name": "seajs-pg-cloud",
-  "version": "1.1.5",
+  "version": "1.1.7",
   "description": "combo for seajs or browserify",
   "main": "index.js",
   "directories": {
@@ -33,12 +33,37 @@
     "seajs"
   ],
   "author": {
-	"name":"zhangzhi",
-	"name":"pinguo-luozhong"
-	},
+    "name": "pinguo-luozhong"
+  },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/pinguo-zhangzhi/seajs-pg-cloud/issues"
   },
-  "homepage": "https://github.com/pinguo-zhangzhi/seajs-pg-cloud"
+  "homepage": "https://github.com/pinguo-zhangzhi/seajs-pg-cloud",
+  "gitHead": "3dc1801b7429458bbba238e466b8b3eb18d4d743",
+  "_id": "seajs-pg-cloud@1.1.6",
+  "_shasum": "ce4b57df40049b56fd986d8247d6bab5f90ead57",
+  "_from": "seajs-pg-cloud@*",
+  "_npmVersion": "2.5.1",
+  "_nodeVersion": "0.12.1",
+  "_npmUser": {
+    "name": "pinguo-zhangzhi",
+    "email": "zhangzhi@camera360.com"
+  },
+  "maintainers": [
+    {
+      "name": "pinguo-zhangzhi",
+      "email": "zhangzhi@camera360.com"
+    },
+    {
+      "name": "pinguo-luozhong",
+      "email": "luozhong@camera360.com"
+    }
+  ],
+  "dist": {
+    "shasum": "ce4b57df40049b56fd986d8247d6bab5f90ead57",
+    "tarball": "http://registry.npmjs.org/seajs-pg-cloud/-/seajs-pg-cloud-1.1.6.tgz"
+  },
+  "_resolved": "https://registry.npmjs.org/seajs-pg-cloud/-/seajs-pg-cloud-1.1.6.tgz",
+  "readme": "ERROR: No README data found!"
 }
