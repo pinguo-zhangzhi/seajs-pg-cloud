@@ -659,7 +659,10 @@ var filterIgnore = function( ignore, id, origId ){
                         retPath = '/.tmp/'+outputPath.join('-')+'.js',
                         toPath = options.pwdPath+retPath;
 
-                    exec('browserify '+fromPath+' > '+toPath, function(){
+                    var CLI = 'browserify '+fromPath+' > '+toPath;
+                    if (options.supportECMA6) CLI = 'browserify '+fromPath+' -t babelify --outfile '+toPath;
+
+                    exec(CLI, function(){
                         block();
                     });
 
@@ -728,6 +731,17 @@ var filterIgnore = function( ignore, id, origId ){
                     return retImg;
                 }else{
                   return str;
+                }
+            });
+
+            content = content.replace(/<video[^<>]+>/ig, function (str, index, allContent) {
+                if (str.indexOf('poster=') >= 0) {
+                    var strArr = str.split('poster='),
+                        retImg = strArr[0] + 'poster=' + relativeStr + strArr[1];
+
+                    return retImg;
+                } else {
+                    return str;
                 }
             });
 
