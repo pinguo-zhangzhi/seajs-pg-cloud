@@ -744,7 +744,6 @@ var filterIgnore = function( ignore, id, origId ){
                     return str;
                 }
             });
-
             file.contents =  new Buffer(content);
             callback(null, file);
         });
