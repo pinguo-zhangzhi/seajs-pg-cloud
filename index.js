@@ -701,25 +701,28 @@ var filterIgnore = function( ignore, id, origId ){
 
             var relativeStr = arr.join('/');
 
-            content = content.replace(/<script[^<>]+><\/script>/ig, function(str, index, allContent){
+            content = content.replace(/<script[^<>]+><\/script>/ig, function (str, index, allContent) {
                 if (str.indexOf('src=') >= 0) {
                     var strArr = str.split('src='),
-                        retScript = strArr[0]+'src='+relativeStr+strArr[1];
-
+                    //retScript = strArr[0] + 'src=' + relativeStr + strArr[1]
+                        src = str.split('src=')[1].split('>')[0],
+                        retScript = strArr[0] + 'src=' +relativeStr+ src+"?v="+Date.parse(new Date()) + "></script>";
                     return retScript;
-                }else{
-                  return str;
+                } else {
+                    return str;
                 }
+
             });
 
-            content = content.replace(/<link[^<>]+>/ig, function(str, index, allContent){
+            content = content.replace(/<link[^<>]+>/ig, function (str, index, allContent) {
                 if (str.indexOf('href=') >= 0) {
                     var strArr = str.split('href='),
-                        retLink = strArr[0]+'href='+relativeStr+strArr[1];
-
+                    //retLink = strArr[0] + 'href=' + relativeStr + strArr[1];
+                        href = str.split('href=')[1].split('>')[0],
+                        retLink = strArr[0] + 'href=' +relativeStr+ href+"?v="+Date.parse(new Date()) + ">";
                     return retLink;
-                }else{
-                  return str;
+                } else {
+                    return str;
                 }
             });
 
