@@ -731,10 +731,35 @@ var filterIgnore = function (ignore, id, origId) {
             content = content.replace(/<img[^<>]+>/ig, function (str, index, allContent) {
                 if (str.indexOf('src=') >= 0 && str.indexOf('http') < 0) {
                     var strArr = str.split('src='),
-                        retImg = strArr[0] + 'src=' + relativeStr + strArr[1];
+                        retImg = strArr[0] + 'src=' + relativeStr + strArr[1] ;
 
                     return retImg;
-                } else {
+                } else if(str.indexOf('http') > 0){
+                    var strArr = str.match(/src=(\S*)[$\s|>]/),
+                        imgSrc = strArr[1] + "?v=" + Date.parse(new Date());
+                    var regSrc = new RegExp(strArr[1]);
+                    var data = str.replace(regSrc,imgSrc);
+                        retImg = data;
+                    return retImg;
+                }else{
+                    return str;
+                }
+            });
+
+            content = content.replace(/<audio[^<>]+>/ig, function (str, index, allContent) {
+                if (str.indexOf('src=') >= 0 && str.indexOf('http') < 0) {
+                    var strArr = str.split('src='),
+                        retImg = strArr[0] + 'src=' + relativeStr + strArr[1] ;
+
+                    return retImg;
+                } else if(str.indexOf('http') > 0){
+                    var strArr = str.match(/src=(\S*)[$\s|>]/),
+                        imgSrc = strArr[1] + "?v=" + Date.parse(new Date());
+                    var regSrc = new RegExp(strArr[1]);
+                    var data = str.replace(regSrc,imgSrc);
+                        retImg = data;
+                    return retImg;
+                }else{
                     return str;
                 }
             });
@@ -743,9 +768,15 @@ var filterIgnore = function (ignore, id, origId) {
                 if (str.indexOf('poster=') >= 0 && str.indexOf('http') < 0) {
                     var strArr = str.split('poster='),
                         retImg = strArr[0] + 'poster=' + relativeStr + strArr[1];
-
+                   return retImg;
+                }else if(str.indexOf('http') > 0){
+                    var strArr = str.match(/src=(\S*)[$\s|>]/),
+                        imgSrc = strArr[1] + "?v=" + Date.parse(new Date());
+                    var regSrc = new RegExp(strArr[1]);
+                    var data = str.replace(regSrc,imgSrc);
+                        retImg = data;
                     return retImg;
-                } else {
+                }else {
                     return str;
                 }
             });
