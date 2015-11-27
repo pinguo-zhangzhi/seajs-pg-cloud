@@ -1,6 +1,6 @@
 {
   "name": "seajs-pg-cloud",
-  "version": "1.2.7",
+  "version": "1.2.8",
   "description": "combo for seajs or browserify",
   "main": "index.js",
   "directories": {

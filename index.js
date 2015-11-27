@@ -12,6 +12,7 @@ var Promise = require('promise'),
     gulp = require('../gulp'),
     uglify = require('../gulp-uglify'),
     exec = require('child_process').exec,
+    stat = fs.stat,
 
     rFirstStr = /[\s\r\n\=]/,
     rDefine = /define\(\s*(['"](.+?)['"],)?/,
@@ -679,6 +680,72 @@ var filterIgnore = function (ignore, id, origId) {
         });
     },
 
+    changePath = function() {
+          var path = process.cwd();
+          var index = path.lastIndexOf("\\") + 1;
+              if(process.platform == "darwin") {
+                index = path.lastIndexOf("/") + 1;
+              }
+          var name = path.substring(index);
+          var distPath = path +"/dist";
+              fs.exists(distPath,function(exists){
+                 if(exists) {
+                    var copy = function( src, dst ){
+                        // 读取目录中的所有文件/目录
+                        fs.readdir( src, function( err, paths ){
+                            if( err ){
+                                throw err;
+                            }
+                            paths.forEach(function( path ){
+                                var _src = src + '/' + path,
+                                    _dst = dst + '/' + path,
+                                    readable, writable;    
+                                stat( _src, function( err, st ){
+                                    if( err ){
+                                        throw err;
+                                    }
+                                    // 判断是否为文件
+                                    if( st.isFile() ){
+                                        // 创建读取流
+                                        readable = fs.createReadStream( _src );
+                                        // 创建写入流
+                                        writable = fs.createWriteStream( _dst );   
+                                        // 通过管道来传输流
+                                        readable.pipe( writable );
+                                    }
+                                    // 如果是目录则递归调用自身
+                                    else if( st.isDirectory() ){
+                                        exists( _src, _dst, copy );
+                                    }
+                                });
+                            });
+                        });
+                    };
+                    // 在复制目录前需要判断该目录是否存在，不存在需要先创建目录
+                    var exists = function( src, dst, callback ){
+                        fs.exists( dst, function( exists ){
+                            if( exists ){
+                                exec('rm -rf '+dst, function(err){
+                                    fs.mkdir(dst, function(){
+                                        callback( src, dst );
+                                    });
+                                });
+                            }
+                            else{
+                                fs.mkdir( dst, function(){
+                                    callback( src, dst );
+                                });
+                            }
+                        });
+                    };
+                    // 复制目录
+                    var copyPath = "../../public/" + name;
+                    exists( distPath, copyPath, copy );
+                 }
+
+              });
+        },
+
     parsePath = function (options) {
         return through.obj(function (file, enc, callback) {
             var content = file.contents.toString(),
@@ -788,5 +855,6 @@ var filterIgnore = function (ignore, id, origId) {
 module.exports = {
     compressSeaJS: searchFile,
     compileBrowserify: compileBrowserify,
-    parsePath: parsePath
+    parsePath: parsePath,
+    changePath:changePath
 };
